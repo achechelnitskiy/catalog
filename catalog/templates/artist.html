@@ -1,0 +1,72 @@
+{% extends "main.html" %}
+{% block content %}
+{% include "header.html" %}
+
+<!-- display name of the genre in a header -->
+<div class="row divider blue">
+	<div class="col-md-12"></div>
+</div>
+<div class="row banner menu">
+	<div class="col-md-11 col-md-offset-1 padding-none">
+		<h1>{{ genre.name }}
+		<figure class="creator">
+			<figcaption>{{ genre.user_id }}</figcaption>
+		</figure>
+		</h1>
+
+	</div>
+</div>
+
+<!-- display any update messages -->
+<div class = 'flash'>
+	{% with messages = get_flashed_messages() %}
+    	{% if messages %}
+	        <ul>
+		        {% for message in messages %}
+		            <li> <strong> {{ message }} </strong> </li>
+		        {% endfor %}
+	        </ul>
+    	{% endif %}
+    {% endwith %}
+</div>
+
+<!-- button to add a new artist -->
+<div class="row padding-top padding-bottom">
+		<div class="col-md-1"></div>
+		<div class="col-sm-12 padding-none">
+			<a href="{{url_for('newArtist', genre_id = genre.id)}}">
+				<button class="btn btn-default" id="new-genre">
+					<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>Add Artist
+				</button>
+			</a>
+		</div>
+		<div class="col-md-1"></div>
+	</div>	
+	
+	<!-- display existing artists, with edit and delete buttons when appropriate -->	
+	{% if items !=[] %}	
+		{% for i in artists %}
+			<div class="row">
+				<div class="col-md-1"></div>
+				<div class="col-sm-12 genre-list">										
+							<div>	
+								<div class="linkLookAlike" >
+									<h3>
+										<span  onclick="showHide('showHide{{i.id}}')">{{i.name}}ZZ</span>
+										{% if session['user_id']  == genre.user_id %}
+										<a href='{{url_for('editArtist', genre_id = genre.id, artist_id=i.id ) }}'><span title="Edit" style="color:black; margin-left: 10px;" class="glyphicon glyphicon-pencil"></span></a>  
+										<a href='{{url_for('deleteArtist', genre_id = genre.id, artist_id=i.id ) }}'><span title="Delete" style="color:black" class="glyphicon glyphicon-remove"></a>
+										{% endif %}	
+									</h3>	
+								</div>		
+								<div id="showHide{{i.id}}" style="display: none;">
+									<p>{{i.bio}}</p>	
+								</div>	
+											
+							</div>
+				</div>		
+				<div class="col-md-1"></div>
+			</div>
+		{% endfor %}	
+	{% endif %}
+{% endblock %}

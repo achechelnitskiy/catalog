@@ -1,0 +1,33 @@
+{% extends "main.html" %}
+{% block content %}
+{% include "header.html" %}
+	<div class="row divider blue">
+		<div class="col-md-12"></div>
+	</div>
+	<div class="row banner menu">
+		<div class="col-md-11 col-md-offset-1 padding-none">
+			<h1>New Artist</h1>
+		</div>
+	</div>
+	<!-- Add name and bio for a new artist -->
+	<div class="row">
+		<div class="col-md-6 col-md-offset-1 padding-top">
+			<form action="#" method = "post">
+				<div class="form-group">
+					<label for="name">Name:</label>
+					<input type ="text" maxlength="50" class="form-control" required=required name="name"placeholder="Name of the artist">
+
+					<label for="bio">Biography:</label>
+					<textarea class="form-control" maxlength="250" rows="3" name="bio" required=required placeholder="Biography details"></textarea>
+
+					<button type="submit" class="btn btn-default" id="submit" type="submit">
+					<span class="glyphicon glyphicon-music" aria-hidden="true"></span>Create</button>
+					<button class="btn btn-default" id="cancel" type="button">
+					<a href = '{{url_for('showArtist', genre_id = genre_id)}}'>
+						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancel
+					</a></button>
+				</div>
+			</form>
+		</div>
+	</div>
+{% endblock %}

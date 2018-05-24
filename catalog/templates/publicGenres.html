@@ -1,0 +1,36 @@
+{% extends "main.html" %}
+{% block content %}
+{% include "header.html" %}
+
+<!--top menu-->	
+<div class="row top-menu">
+	<div class="col-md-10"></div>
+	<div class="col-md-2 text-right">
+				</div>
+</div>
+<div class="row divider blue">
+	<div class="col-md-12"></div>
+</div>
+<div class="row banner main">
+	<div class="col-md-1"></div>
+	<div class="col-md-11 padding-none">
+		<h1>Genres</h1>
+	</div>
+</div>
+		
+<!-- loop over and display existing genres -->	
+{% for genre in genres %}
+	<a href = "{{url_for('showArtist', genre_id = genre.id)}}">
+		<div class="row">
+			<div class="col-md-1"></div>
+				<div class="col-sm-12 genre-list">
+					<h3>
+						<span class="glyphicon glyphicon-music" aria-hidden="true" style="color:black"></span>
+						{{genre.name}}
+					</h3>
+				</div>
+			<div class="col-md-1"></div>
+		</div>
+	</a>
+{% endfor %}
+{% endblock %}

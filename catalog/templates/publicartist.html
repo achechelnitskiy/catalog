@@ -1,0 +1,45 @@
+{% extends "main.html" %}
+{% block content %}
+{% include "header.html" %}
+	
+	<div class="row divider blue">
+		<div class="col-md-12"></div>
+	</div>
+	<div class="row banner menu">
+		<div class="col-md-11 col-md-offset-1 padding-none">
+			<h1>{{ genre.name }}
+			<figure class="creator">
+				<figcaption>{{ creator.name }}</figcaption>
+			</figure>
+			</h1>
+
+		</div>
+	</div>
+	
+	<div class="row padding-top padding-bottom">
+		<div class="col-md-1"></div>
+		<div class="col-md-11 padding-none">
+			
+		</div>
+		<div class="col-md-7"></div>
+	</div>
+	<!-- display available artists -->
+	{% if items !=[] %}	
+		{% for i in artists %}
+			<div class="row">
+				<div class="col-md-1"></div>
+				<div class="col-sm-12 genre-list">										
+								<div class="linkLookAlike" >
+									<h3>
+										<span  onclick="showHide('showHide{{i.id}}')">{{i.name}}</span>									
+									</h3>	
+								</div>		
+								<div id="showHide{{i.id}}" style="display: none;">
+									<p>{{i.bio}}</p>	
+								</div>							
+				</div>		
+				<div class="col-md-1"></div>
+			</div>
+		{% endfor %}
+	{% endif %}
+{% endblock %}

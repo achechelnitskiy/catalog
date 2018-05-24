@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+   <script src="//apis.google.com/js/platform.js?onload=start"> </script>
+
+</head>
+
+<body> 
+<!-- home icon to redirect to showGenre page -->
+<div class="row top-menu">
+	<div class="col-md-6">
+		<a href="{{url_for('showGenres')}}">
+			<span class="glyphicon glyphicon-home" aria-hidden="true" style="color: white"></span>
+		</a>
+	</div>
+{{session['username']}}
+<!-- if user logged in, display sign out link, otherwise, log in button -->
+<div class="row top-menu">
+{% if session['username'] %}
+  <div class="col-md-6 text-right">   
+      <div id="signOutDiv" data-theme="dark" ><a href = '{{url_for('gdisconnect')}}' style="color: white">Sign out</a></div>
+  </div>
+{% else %} 
+<!-- log in button -->
+  <div class="col-md-6 text-right">
+          <div id="signinButton">
+                <span class="g-signin"
+                  data-scope="openid email"
+                  data-clientid="355053481823-7aag3kk4e412t65adid8agmj7mr5ac45.apps.googleusercontent.com"
+                  data-redirecturi="postmessage"
+                  data-accesstype="offline"
+                  data-cookiepolicy="single_host_origin"
+                  data-callback="signInCallback"
+                  data-approvalprompt="force">
+                </span>
+          </div>
+  </div>
+{% endif %}
+</div>
+<div id="result"></div>
+
+<script>
+
+
+function signInCallback(authResult) {
+
+
+  if (authResult['code']) {
+    // Send the one-time-use code to the server, if the server responds, write a 'login successful' message to the web page and then redirect back to the main restaurants page
+    $.ajax({
+      type: 'POST',
+      url: '/gconnect?state={{state}}',
+      processData: false,
+      data: authResult['code'],
+      contentType: 'application/octet-stream; charset=utf-8',
+      success: function(result) {
+        // Handle or verify the server response if necessary.
+        if (result) {
+        	console.log(result);
+          $('#result').html('Login Successful!</br>'+ result + '</br>Redirecting...')
+          setTimeout(function() {
+          window.location.href = "/genre";
+        }, 40);
+          
+        } else if (authResult['error']) {
+            console.log('There was an error: ' + authResult['error']);
+        } else {
+              $('#result').html('Failed to make a server-side call. Check your configuration and console.');
+        }
+
+      }
+
+  }); }}
+
+
+function signOutCallback() {
+    url_for('gdisconnectFake')
+}
+
+
+//handles show/hide of bio when artist name is clicked
+function showHide(divName) {
+    var x = document.getElementById(divName);
+    if (x.style.display === "none") {
+        x.style.display = "block";
+    } else {
+        x.style.display =  "none";
+    }
+} 
+
+//hides bio info on load
+function initialLoad(divName) {
+    var x = document.getElementById(divName);
+    x.style.display =  "none";
+  
+} 
+
+</script>
+
+</div>
+</body>
+</html>
